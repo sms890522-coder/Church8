@@ -1,1 +1,627 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>라이트하우스교회</title>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+
+<style>
+:root{
+  --bg:#050505;
+  --paper:#f4eadc;
+  --ink:#111;
+  --gold:#d8ad5f;
+  --red:#9f2f24;
+  --muted:#b9afa2;
+  --line:rgba(255,255,255,.16);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Pretendard,sans-serif;
+  background:var(--bg);
+  color:#fff;
+}
+a{text-decoration:none;color:inherit}
+
+.cursor-light{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:radial-gradient(circle at var(--x,50%) var(--y,50%),rgba(216,173,95,.16),transparent 28%);
+  z-index:1;
+}
+
+.nav{
+  position:fixed;
+  top:24px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:50;
+  width:min(1180px,calc(100% - 28px));
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 20px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:rgba(5,5,5,.58);
+  backdrop-filter:blur(20px);
+}
+.logo{
+  font-size:22px;
+  font-weight:950;
+  letter-spacing:-.06em;
+}
+.menu{
+  display:flex;
+  gap:6px;
+  font-size:14px;
+  font-weight:850;
+}
+.menu a{
+  padding:10px 12px;
+  border-radius:999px;
+}
+.menu a:hover{
+  background:rgba(255,255,255,.1);
+}
+
+.hero{
+  min-height:100vh;
+  position:relative;
+  display:flex;
+  align-items:flex-end;
+  padding:150px max(24px,calc((100vw - 1180px)/2)) 70px;
+  overflow:hidden;
+}
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(180deg,rgba(0,0,0,.15),#050505 88%),
+    url("https://images.unsplash.com/photo-1507692049790-de58290a4334?auto=format&fit=crop&w=1800&q=80") center/cover;
+  transform:scale(1.05);
+  animation:slowZoom 16s ease-in-out infinite alternate;
+}
+@keyframes slowZoom{
+  from{transform:scale(1.05)}
+  to{transform:scale(1.13)}
+}
+.hero-content{
+  position:relative;
+  z-index:2;
+  width:min(1180px,100%);
+}
+.kicker{
+  color:var(--gold);
+  font-size:13px;
+  letter-spacing:.22em;
+  font-weight:950;
+}
+h1{
+  margin:22px 0;
+  font-size:clamp(54px,10vw,144px);
+  line-height:.82;
+  letter-spacing:-.11em;
+  font-weight:950;
+}
+.hero p{
+  max-width:650px;
+  color:#ddd3c8;
+  font-size:20px;
+  line-height:1.8;
+}
+.actions{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:34px;
+}
+.btn{
+  display:inline-flex;
+  padding:15px 22px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.25);
+  font-weight:950;
+  transition:.25s;
+}
+.btn.gold{
+  background:var(--gold);
+  color:#111;
+  border-color:var(--gold);
+}
+.btn:hover{
+  transform:translateY(-5px);
+}
+
+.marquee{
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  overflow:hidden;
+  white-space:nowrap;
+}
+.marquee div{
+  display:inline-block;
+  padding:18px 0;
+  animation:marquee 22s linear infinite;
+  color:var(--gold);
+  font-weight:950;
+  letter-spacing:.08em;
+}
+@keyframes marquee{
+  from{transform:translateX(0)}
+  to{transform:translateX(-50%)}
+}
+
+.scene{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:.9fr 1.1fr;
+  border-bottom:1px solid var(--line);
+}
+.scene-title{
+  padding:90px 7vw;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  border-right:1px solid var(--line);
+  position:sticky;
+  top:0;
+  height:100vh;
+}
+.scene-title span{
+  color:var(--gold);
+  font-size:13px;
+  letter-spacing:.2em;
+  font-weight:950;
+}
+.scene-title h2{
+  margin:20px 0 0;
+  font-size:clamp(42px,6vw,84px);
+  line-height:.9;
+  letter-spacing:-.09em;
+}
+.scene-body{
+  padding:90px 7vw;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.big{
+  font-size:clamp(34px,5vw,72px);
+  line-height:1.05;
+  letter-spacing:-.085em;
+  margin:0 0 34px;
+}
+.text{
+  color:var(--muted);
+  font-size:19px;
+  line-height:1.9;
+  max-width:760px;
+}
+
+.film-list{
+  margin-top:46px;
+  display:grid;
+  gap:14px;
+}
+.film-item{
+  display:grid;
+  grid-template-columns:100px 1fr;
+  gap:24px;
+  padding:24px 0;
+  border-top:1px solid var(--line);
+}
+.film-item:last-child{
+  border-bottom:1px solid var(--line);
+}
+.film-item b{
+  color:var(--gold);
+  font-size:22px;
+}
+.film-item h3{
+  margin:0 0 8px;
+  font-size:28px;
+  letter-spacing:-.06em;
+}
+.film-item p{
+  margin:0;
+  color:var(--muted);
+  line-height:1.7;
+}
+
+.pastor-frame{
+  display:grid;
+  grid-template-columns:.8fr 1.2fr;
+  gap:34px;
+  align-items:center;
+}
+.pastor-img{
+  min-height:560px;
+  border-radius:50% 50% 8px 8px;
+  background:url("https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?auto=format&fit=crop&w=900&q=80") center/cover;
+  filter:grayscale(.15);
+}
+.quote{
+  font-size:clamp(34px,5vw,70px);
+  line-height:1.08;
+  letter-spacing:-.085em;
+}
+.sign{
+  color:var(--gold);
+  font-size:24px;
+  font-weight:950;
+  margin-top:26px;
+}
+
+.worship-board{
+  display:grid;
+  gap:0;
+  border-top:1px solid var(--line);
+}
+.worship-row{
+  display:grid;
+  grid-template-columns:130px 1fr 190px;
+  gap:20px;
+  align-items:center;
+  padding:30px 0;
+  border-bottom:1px solid var(--line);
+}
+.worship-row .day{
+  color:var(--gold);
+  font-size:24px;
+  font-weight:950;
+}
+.worship-row .name{
+  font-size:34px;
+  font-weight:950;
+  letter-spacing:-.07em;
+}
+.worship-row .time{
+  color:#fff;
+  font-weight:950;
+  text-align:right;
+}
+
+.media-grid{
+  display:grid;
+  grid-template-columns:1.25fr .75fr;
+  gap:24px;
+}
+.youtube{
+  aspect-ratio:16/9;
+  background:#111;
+  border:1px solid var(--line);
+}
+.youtube iframe{
+  width:100%;
+  height:100%;
+  border:0;
+}
+.notice a{
+  display:block;
+  padding:22px 0;
+  border-bottom:1px solid var(--line);
+}
+.notice b{
+  display:block;
+  font-size:22px;
+  letter-spacing:-.05em;
+}
+.notice span{
+  display:block;
+  margin-top:8px;
+  color:var(--gold);
+  font-weight:850;
+}
+
+.location-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:28px;
+}
+.map{
+  min-height:440px;
+  border:1px solid var(--line);
+}
+.map iframe{
+  width:100%;
+  height:100%;
+  border:0;
+}
+.location-card{
+  padding:40px;
+  background:var(--paper);
+  color:var(--ink);
+}
+.location-card h3{
+  margin:0 0 20px;
+  font-size:56px;
+  line-height:.95;
+  letter-spacing:-.09em;
+}
+.location-card p{
+  color:#5c5144;
+  line-height:1.85;
+  font-weight:650;
+}
+
+footer{
+  padding:70px 24px 100px;
+  text-align:center;
+  color:var(--muted);
+}
+
+.reveal{
+  opacity:0;
+  transform:translateY(30px);
+  transition:.8s ease;
+}
+.reveal.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+@media(max-width:920px){
+  .menu{display:none}
+  .scene,.pastor-frame,.media-grid,.location-grid{
+    grid-template-columns:1fr;
+  }
+  .scene-title{
+    position:relative;
+    height:auto;
+    border-right:0;
+    border-bottom:1px solid var(--line);
+    padding:60px 24px;
+  }
+  .scene-body{
+    padding:60px 24px;
+  }
+  .worship-row{
+    grid-template-columns:1fr;
+  }
+  .worship-row .time{text-align:left}
+}
+@media(max-width:560px){
+  h1{font-size:58px}
+  .hero p,.text{font-size:16px}
+  .film-item{grid-template-columns:1fr}
+  .pastor-img{min-height:420px}
+}
+</style>
+</head>
+
+<body>
+<div class="cursor-light"></div>
+
+<nav class="nav">
+  <a href="#" class="logo">라이트하우스교회</a>
+  <div class="menu">
+    <a href="#about">교회소개</a>
+    <a href="#vision">비전</a>
+    <a href="#pastor">담임목사</a>
+    <a href="#worship">예배</a>
+    <a href="#media">유튜브</a>
+    <a href="#location">오시는 길</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-content reveal">
+    <div class="kicker">LIGHTHOUSE CHURCH · SUNDAY INVITATION</div>
+    <h1>어둠 속에<br>빛을 켜는<br>교회</h1>
+    <p>
+      라이트하우스교회는 지친 삶의 항해 가운데
+      하나님의 말씀과 예배로 방향을 밝히는 공동체입니다.
+    </p>
+    <div class="actions">
+      <a class="btn gold" href="#worship">예배 시간 보기</a>
+      <a class="btn" href="#location">처음 오셨나요?</a>
+    </div>
+  </div>
+</header>
+
+<div class="marquee">
+  <div>
+    SUNDAY 11:00 · WORSHIP · WORD · COMMUNITY · NEXT GENERATION · MISSION · LIGHTHOUSE CHURCH · 
+    SUNDAY 11:00 · WORSHIP · WORD · COMMUNITY · NEXT GENERATION · MISSION · LIGHTHOUSE CHURCH ·
+  </div>
+</div>
+
+<section class="scene" id="about">
+  <div class="scene-title">
+    <span>SCENE 01</span>
+    <h2>교회소개</h2>
+  </div>
+  <div class="scene-body reveal">
+    <p class="big">교회는 길을 잃은 사람이 다시 방향을 발견하는 곳입니다.</p>
+    <p class="text">
+      라이트하우스교회는 처음 방문한 분도 편안히 머물 수 있는 따뜻한 공동체입니다.
+      예배 안에서 하나님을 만나고, 말씀 안에서 삶의 방향을 발견하며,
+      서로의 삶을 위해 기도합니다.
+    </p>
+
+    <div class="film-list">
+      <div class="film-item">
+        <b>01</b>
+        <div>
+          <h3>예배</h3>
+          <p>하나님의 임재를 사모하며 진심으로 예배합니다.</p>
+        </div>
+      </div>
+      <div class="film-item">
+        <b>02</b>
+        <div>
+          <h3>말씀</h3>
+          <p>성경의 진리가 오늘의 삶에 실제적인 방향이 되도록 돕습니다.</p>
+        </div>
+      </div>
+      <div class="film-item">
+        <b>03</b>
+        <div>
+          <h3>공동체</h3>
+          <p>혼자가 아니라 함께 믿음의 길을 걸어갑니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="scene" id="vision">
+  <div class="scene-title">
+    <span>SCENE 02</span>
+    <h2>교회비전</h2>
+  </div>
+  <div class="scene-body reveal">
+    <p class="big">예배에서 시작된 빛이 가정과 도시로 흘러갑니다.</p>
+
+    <div class="film-list">
+      <div class="film-item">
+        <b>A</b>
+        <div>
+          <h3>예배의 회복</h3>
+          <p>주일의 감동을 넘어 삶 전체가 하나님께 드려지는 예배가 되게 합니다.</p>
+        </div>
+      </div>
+      <div class="film-item">
+        <b>B</b>
+        <div>
+          <h3>다음세대</h3>
+          <p>아이들과 청년들이 복음 안에서 자신의 정체성을 발견하도록 돕습니다.</p>
+        </div>
+      </div>
+      <div class="film-item">
+        <b>C</b>
+        <div>
+          <h3>지역 섬김</h3>
+          <p>이웃의 필요를 살피고 도시를 사랑으로 섬깁니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="scene" id="pastor">
+  <div class="scene-title">
+    <span>SCENE 03</span>
+    <h2>담임목사<br>인사말</h2>
+  </div>
+  <div class="scene-body reveal">
+    <div class="pastor-frame">
+      <div class="pastor-img"></div>
+      <div>
+        <div class="quote">
+          “교회는 완벽한 사람들이 아니라 은혜가 필요한 사람들이 함께 빛을 바라보는 곳입니다.”
+        </div>
+        <p class="text">
+          라이트하우스교회를 방문해주신 여러분을 환영합니다.
+          이곳에서 예배의 기쁨을 회복하고, 말씀 안에서 삶의 방향을 발견하며,
+          공동체 안에서 다시 일어나는 은혜를 경험하시길 축복합니다.
+        </p>
+        <div class="sign">담임목사 김빛</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="scene" id="worship">
+  <div class="scene-title">
+    <span>SCENE 04</span>
+    <h2>예배안내</h2>
+  </div>
+  <div class="scene-body reveal">
+    <div class="worship-board">
+      <div class="worship-row">
+        <div class="day">SUN</div>
+        <div class="name">주일예배</div>
+        <div class="time">오전 11:00</div>
+      </div>
+      <div class="worship-row">
+        <div class="day">WED</div>
+        <div class="name">수요기도회</div>
+        <div class="time">오후 7:30</div>
+      </div>
+      <div class="worship-row">
+        <div class="day">DAWN</div>
+        <div class="name">새벽기도회</div>
+        <div class="time">화-금 오전 5:30</div>
+      </div>
+      <div class="worship-row">
+        <div class="day">NEXT</div>
+        <div class="name">다음세대 예배</div>
+        <div class="time">주일 오전 11:00</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="scene" id="media">
+  <div class="scene-title">
+    <span>SCENE 05</span>
+    <h2>유튜브<br>공지사항</h2>
+  </div>
+  <div class="scene-body reveal">
+    <div class="media-grid">
+      <div class="youtube">
+        <iframe src="https://www.youtube.com/embed/live_stream?channel=UC_x5XG1OV2P6uZZ5FSM9Ttw" allowfullscreen></iframe>
+      </div>
+      <div class="notice">
+        <a href="#"><b>새가족 환영 모임 안내</b><span>2026.04.27</span></a>
+        <a href="#"><b>다음세대 여름수련회 신청</b><span>2026.04.20</span></a>
+        <a href="#"><b>주일 차량 운행 시간 변경</b><span>2026.04.13</span></a>
+        <a href="#"><b>금요기도회 특별집회</b><span>2026.04.06</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="scene" id="location">
+  <div class="scene-title">
+    <span>SCENE 06</span>
+    <h2>오시는 길</h2>
+  </div>
+  <div class="scene-body reveal">
+    <div class="location-grid">
+      <div class="map">
+        <iframe src="https://maps.google.com/maps?q=Seoul%20Korea&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+      </div>
+      <div class="location-card">
+        <h3>라이트하우스교회</h3>
+        <p>
+          주소: 서울특별시 은평구 은혜로 123<br>
+          전화: 02-123-4567<br>
+          이메일: church@example.com
+        </p>
+        <a class="btn gold" href="#worship">예배 시간 확인</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <b>라이트하우스교회</b><br>
+  Copyright © 2026 Lighthouse Church. All rights reserved.
+</footer>
+
+<script>
+document.addEventListener("mousemove",e=>{
+  document.documentElement.style.setProperty("--x",e.clientX+"px");
+  document.documentElement.style.setProperty("--y",e.clientY+"px");
+});
+
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting) entry.target.classList.add("show");
+  });
+},{threshold:.12});
+
+document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
+</script>
+
+</body>
+</html>
